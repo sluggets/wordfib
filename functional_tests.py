@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 import unittest
 
 class NewVisitorTest(unittest.TestCase):
@@ -14,12 +15,8 @@ class NewVisitorTest(unittest.TestCase):
         # "Wordfib" sub title
         self.browser.get('http://localhost:8000')
         self.assertIn('Longoria Guestbook', self.browser.title)
-        self.assertIn('Wordfib', self.browser.h1)
-    # Tim goes to homepage There is a menu with links to guestbook,
-    # and "local stuff". Local stuff will have parks, movies, maybe 
-    # API stuff from qctimes, rcreader, nearby restaurants, personalized
-    # reccommendations for walks, runs, rides, hikes. etc.
-    # Guestbook will have place to post a note, upload a picture.        
+        header_text = self.browser.find_element_by_tag_name('h1').text
+        self.assertIn('Wordfib', header_text)
     # the homepage however has the Wordfib game(balderdash clone).
     # The user is prompted to input last initial followed by first name
     # for scoring purposes.
@@ -31,6 +28,11 @@ class NewVisitorTest(unittest.TestCase):
     # wrote the false def gets points. After that, then the user is
     # prompted to write a def for a different randomly selected word.
     # AND THEN, leaderboard is shown.
+    # Tim goes to homepage There is a menu with links to guestbook,
+    # and "local stuff". Local stuff will have parks, movies, maybe 
+    # API stuff from qctimes, rcreader, nearby restaurants, personalized
+    # reccommendations for walks, runs, rides, hikes. etc.
+    # Guestbook will have place to post a note, upload a picture.        
     
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
