@@ -4,6 +4,16 @@
 </head>
 <body>
     <h1>Wordfib</h1>
+    <div>
+        <p>{{ rand_word }}</p>
+    </div>
+    <div>
+        <ul>
+        {% for def in def_list %}
+            <li>{{ def }}</li>
+        {% endfor %}
+        </ul>
+    </div>
 </body>
 
 </html>
