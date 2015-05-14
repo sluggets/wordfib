@@ -11,7 +11,7 @@
         <div>
             <p>Create a definition for the word,</p>
             <p>{{ rand_word }}:</p>
-            <form action="/add_def/" method="post">
+            <form action="{% url 'wordfib:add_def' %}" method="post">
             {% csrf_token %}
                 <input type="hidden" value="{{ user.user }}" name="user"/>
                 <input type="hidden" value="{{ rand_word }}" name="word"/>

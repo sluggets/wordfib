@@ -76,7 +76,8 @@ def add_def(request):
     new_def = word.fakedefinitions_set.create(author=request.POST['user'], definition=(request.POST['definition'].lower()))
 
     new_def.save()
-    return redirect('from_def')
+    return redirect('wordfib:from_def')
+    #return render(request, 'wordfib/from_def')
 
 def scoreboard(request):
     # declare lists for table data

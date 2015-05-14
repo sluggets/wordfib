@@ -9,7 +9,7 @@
         <p>{{ rand_word }}:</p>
     </div>
     <div>
-        <form action="/vote/" method="post">
+        <form action="{% url 'wordfib:vote' %}" method="post">
         <fieldset>
         {% csrf_token %}
             <ul>
@@ -26,7 +26,7 @@
         </form>
     </div>
     <div>
-        <a href="/scoreboard/">Check out the Scoreboard</a>
+        <a href="{% url 'wordfib:scoreboard' %}">Check out the Scoreboard</a>
     </div>
 </body>
 
