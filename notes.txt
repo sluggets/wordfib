@@ -1,0 +1,25 @@
+Grabbing scores from the fake definiton table:
+    make a list from fake defs filtered by username:
+        fake_defs_by_user = FakeDefinitions.objects.filter(author='ltim')
+        score = 0
+        for defs in fake_defs_by_user:
+            score += defs.score()
+
+Need to implement a button to "Gimme a new word!"
+
+Once all words and definitions have been uploaded, need to do these
+things:
+
+Maybe have a period of time where only definition submissions are allowed
+and no gameplay is allowed since there just aren't enough fake 
+definitions to work with.
+
+Only allow words to be displayed for multiple choice if there are at least
+three fake definitions in addition to the real definition(so, a total of four defs)
+
+Find a new random function to select a word. Current random function will break if/when words are inevitibly deleted for whatever reason.
+
+***DONE***Need to have redirect handled after entering a def. Should show home page with a thank you for entering a definition and an offer to play again if you want***DONE***
+
+If some cheating chump tries to vote on their own definition, a stern reprimand occurs and a deduction of points!!!
+

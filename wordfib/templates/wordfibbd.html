@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Longoria Guestbook</title>
+    </head>
+    <body>
+        <div>
+            <p>{{ user.user }}!! I award you no points, and may God have mercy on your soul.</p>
+            <p>You just got WORDFIBBD by {{ author.author }}!</p>
+            <p>Your current score is {{ current_score }}.</p>
+            <p>If you want to try and actually <em>increase</em> your score, you can submit a definition to try and wordfib others!<p>
+        </div>
+        <div>
+            <p>Create a definition for the word,</p>
+            <p>{{ rand_word }}:</p>
+            <form action="/add_def/" method="post">
+            {% csrf_token %}
+                <input type="hidden" value="{{ user.user }}" name="user"/>
+                <input type="hidden" value="{{ rand_word }}" name="word"/>
+                <textarea  rows="4" cols="50" name="definition" autofocus placeholder="Enter definition here"></textarea>
+                <input type="submit" value="Enter Definition">
+            </form>
+        </div>
+    </body>
+</html>

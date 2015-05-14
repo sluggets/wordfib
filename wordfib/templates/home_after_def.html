@@ -4,6 +4,9 @@
 </head>
 <body>
     <h1>Wordfib</h1>
+    <p>Thanks for submitting your definition!</p>
+    <p>You can play again if you like!</p>
+    <p>Just don't vote on your own fake definitions if encountered!!!</p>
         {% csrf_token %}
     <div>
         <p>{{ rand_word }}:</p>
@@ -17,11 +20,11 @@
                 <li>
                     <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ def.id }}"/>
                     <label for="choice{{ forloop.counter }}">{{ def.definition }}</label>
-                </li></br>
+                </li>
             {% endfor %}
             </ul>
             <input type="submit" value="Submit Guess"/>
-            <input type="text" name="username" placeholder="Last Initial, First Name">  Example: ltim</input>
+            <input type="text" name="username" placeholder="Last Initial, First Name">Example: ltim</input>
         </fieldset>
         </form>
     </div>

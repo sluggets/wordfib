@@ -1,5 +1,5 @@
 from django.contrib import admin
-from wordfib.models import WordAndTrue, FakeDefinitions
+from wordfib.models import WordAndTrue, FakeDefinitions, CorrectGuess
 
 # Register your models here.
 class FakeInline(admin.TabularInline):
@@ -11,3 +11,4 @@ class WordAndTrueAdmin(admin.ModelAdmin):
     search_fields = ['word']
 
 admin.site.register(WordAndTrue, WordAndTrueAdmin)
+admin.site.register(CorrectGuess)

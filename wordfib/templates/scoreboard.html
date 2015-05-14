@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>Longoria Guestbook</title>
+    </head>
+    <body>
+       <div>
+           <table>
+               <tr>
+                   <th>User</th>
+                   <th>Wordfib Points</th>
+                   <th>Correct Guess Points</th>
+                   <th>Total Score</th>
+               </tr>
+               {% for rec in sb_set %}
+               <tr>
+                   {% for data in rec %}
+                       <td>{{ data }}</td>
+                   {% endfor %}
+               </tr>
+               {% endfor %}
+           </table> 
+       </div> 
+    </body>
+</html>
+
