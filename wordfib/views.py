@@ -70,13 +70,16 @@ def vote(request):
         return render(request, 'congrats.html', {'real_def': real_def, 'user': user, 'current_score': current_score, 'rand_word': rand_word}) 
 
 # adds definition to database
-def add_def(request):
+def add_def(request, from_add_another=False):
     word = WordAndTrue.objects.get(word=request.POST['word'])
 
     new_def = word.fakedefinitions_set.create(author=request.POST['user'], definition=(request.POST['definition'].lower()))
 
     new_def.save()
-    return redirect('wordfib:from_def')
+    if from_add_another:
+        return redirect('wordfib:add_yet_another')
+    else:
+        return redirect('wordfib:from_def')
     #return render(request, 'wordfib/from_def')
 
 def scoreboard(request):
@@ -111,3 +114,13 @@ def scoreboard(request):
 
     return render(request, 'scoreboard.html', {'sb_set': sb_set})
      
+def add_another(request, pop_again=False):
+    
+    # grab a random word for player to write a fake def.
+    rand_word = choice(WordAndTrue.objects.all())
+
+    thanks_list = ['Thank you very much!', 'Muchas Gracias!', 'Baie Dankie!', 'Merci Beaucoup!', 'Domo Arigato!']
+    shuffle(thanks_list)
+    thanks = thanks_list[0]
+
+    return render(request, 'populate.html', {'rand_word': rand_word, 'pop_again': pop_again, 'thanks': thanks})

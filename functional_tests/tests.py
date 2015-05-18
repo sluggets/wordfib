@@ -1,8 +1,8 @@
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import unittest
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(5)
@@ -13,7 +13,7 @@ class NewVisitorTest(unittest.TestCase):
     def test_is_presented_with_username_login(self):
         # Tim goes to homepage and sees Longoria Guestbook title followed by
         # "Wordfib" sub title
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         self.assertIn('Longoria Guestbook', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('Wordfib', header_text)
@@ -34,6 +34,3 @@ class NewVisitorTest(unittest.TestCase):
     # reccommendations for walks, runs, rides, hikes. etc.
     # Guestbook will have place to post a note, upload a picture.        
     
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
-
