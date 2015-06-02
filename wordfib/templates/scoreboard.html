@@ -1,16 +1,19 @@
-<html>
-    <head>
-        <title>Longoria Guestbook</title>
-    </head>
-    <body>
-       <div>
-           <table>
-               <tr>
-                   <th>User</th>
-                   <th>Wordfib Points</th>
-                   <th>Correct Guess Points</th>
-                   <th>Total Score</th>
-               </tr>
+{% include 'header.html' %}
+       <div class="panel panel-default">
+           <div class="panel-heading"><h2>Scoreboard</h2></div>
+           <div class="panel-body">
+               <p>Scores are broken out into points earned by wordfibbing others and points earned by guessing the correct definition</p>
+       </div>
+           <table id="score-table" class="table table-striped table-hover">
+               <thead style="display:table-header-group">
+                  <tr>
+                       <th class="header-center">User</th>
+                       <th class="header-center">Wordfib Points</th>
+                       <th class="header-center">Correct Guess Points</th>
+                       <th class="header-center">Total Score</th>
+                  </tr>
+               </thead>
+               <tbody>
                {% for rec in sb_set %}
                <tr>
                    {% for data in rec %}
@@ -18,8 +21,11 @@
                    {% endfor %}
                </tr>
                {% endfor %}
+               </tbody>
            </table> 
        </div> 
+    </div>
+    </div>
     </body>
 </html>
 

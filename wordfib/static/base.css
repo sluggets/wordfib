@@ -1,0 +1,55 @@
+@font-face
+{
+    font-family: MyUnderwood;
+    src: url(/static/bootstrap/fonts/MyUnderwood.ttf)
+}
+body 
+{
+    font-family: MyUnderwood;
+    background-color: #e7dfcc;
+}
+#score-table .header-center
+{ 
+    text-align: center; 
+}
+
+.jumbotron
+{
+    color: #674172;
+    background-color: #F8FCE4; 
+}
+
+.btn-primary
+{
+    background-color: #674172;
+    outline: 0 none;
+    padding: none;
+    border: none;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active
+{
+    background: #765480;
+    box-shadow: none;
+    outline: 0 none;
+}
+
+.btn-primary.raised:active, .btn-primary.raised.active, .btn-primary.raised
+{
+    color: #AA95B0;
+    outline: 0 none;
+}
+
+a
+{
+    color: #A48DAA;
+}
+
+a:hover, a:active
+{
+    color: #674172;
+}
+
+.list-group li
+{
+}
