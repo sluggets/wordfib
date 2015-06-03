@@ -2,7 +2,6 @@
 Once all words and definitions have been uploaded, need to do these
 things:
 
-Make input fields focus purple, not blue.
 
 Need to implement a button to "Gimme a new word!"
 Also more links on pages for scoreboard, and homepage
@@ -34,3 +33,5 @@ three fake definitions in addition to the real definition(so, a total of four de
 ***DONE***Find a new random function to select a word. Current random function will break if/when words are inevitibly deleted for whatever reason.***DONE***
 
 ***DONE***Need to have redirect handled after entering a def. Should show home page with a thank you for entering a definition and an offer to play again if you want***DONE***
+
+***DONE***Make input fields focus purple, not blue.***DONE***
