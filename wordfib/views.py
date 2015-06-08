@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from wordfib.models import WordAndTrue, FakeDefinitions, CorrectGuess
 from random import randint, shuffle, choice
+from django.core.exceptions import ValidationError
 
 # deploys game with random word and definitions
-def home_page(request, from_def=False):
+def home_page(request, from_def=False, name_error=False, def_error=False, choice_error=False, self_error=False):
     rand_word = choice(WordAndTrue.objects.all())
     # word needs at least 3 fake definitions to be displayed
     while rand_word.fakedefinitions_set.count() < 3:
@@ -18,8 +19,17 @@ def home_page(request, from_def=False):
     shuffle(def_list)
 
     # checks to see if user is coming from creation page
+    # also handles form validation...kinda hackish I know
     if from_def:
         return render(request, 'home_after_def.html', {'rand_word': rand_word, 'def_list': def_list})
+    elif name_error:
+        return render(request, 'home.html', {'rand_word': rand_word, 'def_list': def_list, 'error': 'Enter a username!!'})
+    elif choice_error:
+        return render(request, 'home.html', {'rand_word': rand_word, 'def_list': def_list, 'error': 'Select a definition!'})
+    elif def_error:
+        return render(request, 'home.html', {'rand_word': rand_word, 'def_list': def_list, 'error': 'Enter a definition!'})
+    elif self_error:
+        return render(request, 'home.html', {'rand_word': rand_word, 'def_list': def_list, 'error': 'Ah ah ah, bad boy! Don\'t vote on definitions YOU created!'})
     else:
         return render(request, 'home.html', {'rand_word': rand_word, 'def_list': def_list})
 
@@ -27,19 +37,35 @@ def vote(request):
     # grab a random word for player to write a fake def.
     rand_word = choice(WordAndTrue.objects.all())
 
-    # enforce lower-case
+    # catch empty user name field
+    #lower_user = request.POST['username']
+    #try:
+    #    user = CorrectGuess.objects.create(user=lower_user)
+    #    user.full_clean()
+    #except ValidationError:
+    #    error = "Enter your username, mang!"
+    #    return redirect('wordfib:home', error)
+    
+    # enforce lower-case and alpha only
     lower_user = request.POST['username'].lower()
+    lower_user = lower_user.lower()
+    lower_user = ''.join(c for c in lower_user if c.islower())
+    if len(lower_user) == 0:
+        return redirect('wordfib:blank_name')
     
     # check if user has already correctly guessed a def.
     user = CorrectGuess.objects.filter(user=lower_user)
 
     # primary key number of multiple-choice selection
-    uid = request.POST['choice']
+    uid = request.POST.get('choice', False)
+    if uid == False:
+        return redirect('wordfib:blank_choice')
 
-    # if no user, create the user
+    # if not already a user, create the user
     if user.count() == 0:
         user = CorrectGuess.objects.create(user=lower_user)
         user.save()
+        user.full_clean()
     else:
         user = CorrectGuess.objects.get(user=lower_user)
         
@@ -47,7 +73,12 @@ def vote(request):
     # Handle the scoring and responses of correct vs incorrect guesses
     if WordAndTrue.objects.filter(pk=uid).count() == 0:
         fake_def = FakeDefinitions.objects.get(pk=uid)
-        fake_def.votes += 1
+
+        # Disallows someone voting on their own definition
+        if fake_def.author == lower_user:
+            return redirect('wordfib:self_voter')
+
+        fake_def.votes += 2
         fake_def.save()
         current_score = user.score
         get_fake = FakeDefinitions.objects.filter(author=lower_user)
@@ -73,9 +104,23 @@ def vote(request):
 def add_def(request, from_add_another=False):
     word = WordAndTrue.objects.get(word=request.POST['word'])
 
-    new_def = word.fakedefinitions_set.create(author=request.POST['user'], definition=(request.POST['definition'].lower()))
+    # tries to reduce/homegenize punctuation and capitilization to reduce
+    # some perfect formatting giving away the real definition
+    u_def = request.POST['definition'].lower()
+    u_def = u_def.rstrip()
+    u_def = ''.join(c for c in u_def if c.islower() or c == ' ' or c == ',' or c == "'" or c == '.') 
+
+    if len(u_def) == 0:
+        return render(request, "create_def.html", {'n_user': request.POST['user'], 'rand_word': request.POST['word']} )
+
+    if u_def[-1] != '.':
+        u_def += '.'
+
+    new_def = word.fakedefinitions_set.create(author=request.POST['user'], definition=u_def)
 
     new_def.save()
+    new_def.full_clean()
+
     if from_add_another:
         return redirect('wordfib:add_yet_another')
     else:

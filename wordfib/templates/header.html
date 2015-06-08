@@ -10,4 +10,9 @@
 <body>
 <div class="container">
 <div class="text-center jumbotron">
-    <h1>WORDFIB</h1>
+    <ul class="nav nav-pills nav-justified">
+        <li role="presentation" ><a href="{% url 'wordfib:home' %}"><p>-New Word-</p></a></li>
+        <li role="presentation"><a href="{% url 'wordfib:scoreboard' %}"><p>-Scoreboard-</p></a></li>
+    </ul>
+    <h1><a href="{% url 'wordfib:home'%}">WORDFIB</a></h1>
+    </br>

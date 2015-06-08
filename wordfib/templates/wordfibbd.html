@@ -5,23 +5,4 @@
             <p>Your current score is {{ current_score }}.</p>
             <p>If you want to try and actually <em>increase</em> your score, you can submit a definition to try and wordfib others!<p>
         </div>
-        <div>
-            <p>Create a definition for the word,</p>
-            <h2>{{ rand_word }}:</h2>
-            <form action="{% url 'wordfib:add_def' %}" method="post">
-            {% csrf_token %}
-                <input type="hidden" value="{{ user.user }}" name="user"/>
-                <input type="hidden" value="{{ rand_word }}" name="word"/>
-                <textarea id="inputHelpBlock" class="form-control"  rows="4" cols="50" name="definition" autofocus placeholder="Enter definition here"></textarea>
-                <span id="helpBlock" class="help-block"><ol>
-                    <li>You can make an obviously fake, yet incredibly humorous definition, but realize that this approach should be used as sparingly as salt and sarcasm.</li>
-                    <li>A dry and convincing definition will net you good points, but may be boring.</li>
-                    <li>A subtle combination of #1 and #2 will entertain but still win votes!</li></span>
-                </br>
-                <input type="submit" class="btn btn-primary btn-lg" value="Enter Definition">
-            </form>
-        </div>
-    </div>
-    </div>
-    </body>
-</html>
+{% include 'word_def_footer.html' %}

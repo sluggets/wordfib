@@ -1,5 +1,12 @@
 {% include 'header.html' %}
         {% csrf_token %}
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"><span>
+            <span class="sr-only">Error:</span>
+            {{ error }}
+        </div>
+        {% endif %}
     <div class="page-header">
         <h2>{{ rand_word }}:</h2>
     </div>
@@ -16,6 +23,13 @@
             {% endfor %}
             </ul>
                             <!--<input type="submit" value="Submit Guess"/> -->
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"><span>
+                <span class="sr-only">Error:</span>
+                {{ error }}
+            </div>
+            {% endif %}
             <div class="row">
                 <div class="col-xs-4 col-xs-offset-4">
                 <input type="text" id="inputHelpBlock" style="text-align:center" class="form-control" name="username" placeholder="lfirst"/>
@@ -27,9 +41,6 @@
             </div>
         </fieldset>
         </form>
-    </div>
-    <div>
-        <a href="{% url 'wordfib:scoreboard' %}">Check out the Scoreboard</a>
     </div>
 </div>
 </div>

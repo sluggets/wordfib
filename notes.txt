@@ -1,24 +1,25 @@
-
 Once all words and definitions have been uploaded, need to do these
 things:
 
 
-Need to implement a button to "Gimme a new word!"
+
+
+***DONE***Need to implement a button to "Gimme a new word!"
 Also more links on pages for scoreboard, and homepage
-Generally just need a nice menu with three buttons: Scoreboard, Homepage, New Word.
+Generally just need a nice menu with three buttons: Scoreboard, Homepage, New Word.***DONE***
 
-Change points scored for wordfibbing someone else to 2!
 
-Maybe have a period of time where only definition submissions are allowed
+***DONE***Maybe have a period of time where only definition submissions are allowed
 and no gameplay is allowed since there just aren't enough fake 
-definitions to work with.
+definitions to work with.***DONE***
 
 
-If some cheating chump tries to vote on their own definition, a stern reprimand occurs and a deduction of points!!!
+***DONE***If some cheating chump tries to vote on their own definition, a stern reprimand occurs and a deduction of points!!!***DONE***
 
-Need to handle validation , i.e. if submit without username, or voting on one's own created definition, also HTML-escape all user submissions to avoid the haxoring!
 
 Need to have a snippet that tells you what points you get for what!
+
+***DONE***Need to handle validation , i.e. if submit without username, or voting on one's own created definition, also HTML-escape all user submissions to avoid the haxoring!***DONE***
 
 ***DONE***Grabbing scores from the fake definiton table:
     make a list from fake defs filtered by username:
@@ -35,3 +36,14 @@ three fake definitions in addition to the real definition(so, a total of four de
 ***DONE***Need to have redirect handled after entering a def. Should show home page with a thank you for entering a definition and an offer to play again if you want***DONE***
 
 ***DONE***Make input fields focus purple, not blue.***DONE***
+
+***DONE***Change points scored for wordfibbing someone else to 2!***DONE***
+
+***DONE***Need to process username and ESPECIALLY user-submitted definitions. We gonnna do these three things:
+    1) lower case all the shit
+    2) strip any whitespace after last letter (rstrip())
+    3) strip anything that is not a space or a period or an apostrophe? (''.join(c for c in definition if c.islower() or c == ' ' or c == '.' or c == "'")
+    4) add in a period at the end of definition. (if definition[-1] != '.': definition += '.'
+    5) ensure full_clean() to protect against blank submissions, pretty up the validation warnings***DONE***
+
+***DONE***Title should be link to get back to home page***DONE***
