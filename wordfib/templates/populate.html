@@ -6,9 +6,11 @@
         </div>
         {% endif %}
         <div>
-            <p>Thanks for helping me populate some false definitions for this Wordfib game. The point is to be convincing and to fool others into voting on a false definition. (Balderdash clone)</p>
-            <p>Once a minimum amount of words (T.B.D.) has the required amount (3) of false definitions, I will open the actual game up.</p>
-            <p>Ideally, the absolute minimum should be needed as the submissions you are contributing will be shown as authored by "anonymous".</p>
+            <p>Thanks for helping me populate some false definitions for this Wordfib game. The point is to be convincing and to fool others into voting on a false definition. (a minimal version of a <a href="http://en.wikipedia.org/wiki/Balderdash">Balderdash</a> clone)</p>
+            <p>Once a minimum amount of words (T.B.D.) has the required amount (2) of false definitions, I will open the actual game up.</p>
+            <p>The submissions you are contributing will be shown as authored by "anonymous", so, you will not get any credit for these. Once the game is open, any definitions submitted <em>will</em> be attributed to the user.</p>
+            <p>I just need to populate an initial starting set, otherwise scoring will be off.</p>
+            <p>This game is not meant to stay online, it actually is intended for my local home network only, this is just testing, and will be taken down in a short amount of time.</p>
         </br>
         </div>
         <div>
@@ -18,11 +20,12 @@
             <form action="{% url 'wordfib:from_add' %}" method="post">
             {% csrf_token %}
                 <input type="hidden" value="{{ rand_word }}" name="word"/>
-                <textarea id="inputHelpBlock" class="form-control"  rows="4" cols="50" name="definition" autofocus placeholder="Enter definition here"></textarea>
+                <textarea id="inputHelpBlock" class="form-control"  rows="4" cols="50" name="definition" placeholder="Enter definition here"></textarea>
                 <span id="helpBlock" class="help-block"><ol>
-                    <li>You can make an obviously fake, yet incredibly humorous definition, but realize that this approach should be used as sparingly as salt and sarcasm.</li>
+                    <li>You can make an obviously fake, yet incredibly humorous definition, but realize that this approach should be used as sparingly as salt and sarcasm, lest the real definition be too obvious.</li>
                     <li>A dry and convincing definition will cause confusion and create a greater challenge, but may be boring.</li>
-                    <li>A subtle combination of #1 and #2 will entertain but still create a head-scratcher.</li></span>
+                    <li>A subtle combination of #1 and #2 will entertain but still create a head-scratcher.</li>
+                    <li>Commas, apostrophes, and periods are the only punctuation allowed.</li></span>
                 </br>
                 <div>
                     <input type="hidden" name="user" value="anonymous"/>

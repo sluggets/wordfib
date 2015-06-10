@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 def home_page(request, from_def=False, name_error=False, def_error=False, choice_error=False, self_error=False):
     rand_word = choice(WordAndTrue.objects.all())
     # word needs at least 3 fake definitions to be displayed
-    while rand_word.fakedefinitions_set.count() < 3:
+    while rand_word.fakedefinitions_set.count() < 2:
         rand_word = choice(WordAndTrue.objects.all())
 
     def_list = []
@@ -33,18 +33,10 @@ def home_page(request, from_def=False, name_error=False, def_error=False, choice
     else:
         return render(request, 'home.html', {'rand_word': rand_word, 'def_list': def_list})
 
+# handles voting on the provided word
 def vote(request):
     # grab a random word for player to write a fake def.
     rand_word = choice(WordAndTrue.objects.all())
-
-    # catch empty user name field
-    #lower_user = request.POST['username']
-    #try:
-    #    user = CorrectGuess.objects.create(user=lower_user)
-    #    user.full_clean()
-    #except ValidationError:
-    #    error = "Enter your username, mang!"
-    #    return redirect('wordfib:home', error)
     
     # enforce lower-case and alpha only
     lower_user = request.POST['username'].lower()
@@ -71,7 +63,11 @@ def vote(request):
         
         
     # Handle the scoring and responses of correct vs incorrect guesses
-    if WordAndTrue.objects.filter(pk=uid).count() == 0:
+    sent_word = request.POST['word']
+    true_def = WordAndTrue.objects.get(word=sent_word)
+
+    #if WordAndTrue.objects.filter(pk=uid).count() == 0:
+    if true_def.id != int(uid):
         fake_def = FakeDefinitions.objects.get(pk=uid)
 
         # Disallows someone voting on their own definition
@@ -108,7 +104,11 @@ def add_def(request, from_add_another=False):
     # some perfect formatting giving away the real definition
     u_def = request.POST['definition'].lower()
     u_def = u_def.rstrip()
-    u_def = ''.join(c for c in u_def if c.islower() or c == ' ' or c == ',' or c == "'" or c == '.') 
+
+    while u_def.startswith(" "):
+        u_def = u_def[1:]
+
+    u_def = ''.join(c for c in u_def if c.islower() or c.isdigit() or c == ' ' or c == ',' or c == "'" or c == '.') 
 
     if len(u_def) == 0:
         return render(request, "create_def.html", {'n_user': request.POST['user'], 'rand_word': request.POST['word']} )
@@ -125,7 +125,6 @@ def add_def(request, from_add_another=False):
         return redirect('wordfib:add_yet_another')
     else:
         return redirect('wordfib:from_def')
-    #return render(request, 'wordfib/from_def')
 
 def scoreboard(request):
     # declare lists for table data
@@ -163,6 +162,9 @@ def add_another(request, pop_again=False):
     
     # grab a random word for player to write a fake def.
     rand_word = choice(WordAndTrue.objects.all())
+
+    while rand_word.fakedefinitions_set.count() > 2:
+        rand_word = choice(WordAndTrue.objects.all())
 
     thanks_list = ['Thank you very much!', 'Muchas Gracias!', 'Baie Dankie!', 'Merci Beaucoup!', 'Domo Arigato!']
     shuffle(thanks_list)

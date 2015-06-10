@@ -14,6 +14,7 @@
         <form action="{% url 'wordfib:vote' %}" method="post">
         <fieldset>
         {% csrf_token %}
+            <input type="hidden" value="{{ rand_word }}" name="word"/>
             <ul class="list-group">
             {% for def in def_list %}
                 <li class="list-group-item">
@@ -22,7 +23,6 @@
                 </li></br>
             {% endfor %}
             </ul>
-                            <!--<input type="submit" value="Submit Guess"/> -->
             {% if error %}
             <div class="alert alert-danger" role="alert">
                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"><span>

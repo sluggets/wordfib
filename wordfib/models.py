@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 class WordAndTrue(models.Model):
     word = models.CharField(max_length=50)
     real_definition = models.CharField(max_length=700, blank=True, null=True)
