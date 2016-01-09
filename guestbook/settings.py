@@ -20,11 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'xot8&^c&3s833#c&i^rcab&&t&eo1audi4(fzmiiibr)8=l3%j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False 
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.wordfib.sluggets.com']
 
 
 # Application definition

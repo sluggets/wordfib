@@ -1,4 +1,5 @@
 {% include 'header.html' %}
+{% load check_type %}
         {% csrf_token %}
         {% if error %}
         <div class="alert alert-danger" role="alert">
@@ -18,7 +19,7 @@
             <ul class="list-group">
             {% for def in def_list %}
                 <li class="list-group-item">
-                    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ def.id }}"/>
+                    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ def | to_class_name }}-{{ def.id }}"/>
                     <label for="choice{{ forloop.counter }}">{{ def.definition }}</label>
                 </li></br>
             {% endfor %}

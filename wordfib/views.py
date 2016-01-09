@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 # deploys game with random word and definitions
 def home_page(request, from_def=False, name_error=False, def_error=False, choice_error=False, self_error=False):
     rand_word = choice(WordAndTrue.objects.all())
-    # word needs at least 3 fake definitions to be displayed
+    # word needs at least 2 fake definitions to be displayed
     while rand_word.fakedefinitions_set.count() < 2:
         rand_word = choice(WordAndTrue.objects.all())
 
@@ -38,6 +38,10 @@ def vote(request):
     # grab a random word for player to write a fake def.
     rand_word = choice(WordAndTrue.objects.all())
     
+    # requires word to have fewer than 3 definitions.
+    while rand_word.fakedefinitions_set.count() >= 2:
+        rand_word = choice(WordAndTrue.objects.all())
+
     # enforce lower-case and alpha only
     lower_user = request.POST['username'].lower()
     lower_user = lower_user.lower()
@@ -49,9 +53,14 @@ def vote(request):
     user = CorrectGuess.objects.filter(user=lower_user)
 
     # primary key number of multiple-choice selection
-    uid = request.POST.get('choice', False)
-    if uid == False:
+    u_choice = request.POST.get('choice', False)
+    if u_choice == False:
         return redirect('wordfib:blank_choice')
+
+    choice_list = []
+    choice_list = u_choice.split('-')
+    choice_type = choice_list[0]
+    choice_uid = choice_list[1]
 
     # if not already a user, create the user
     if user.count() == 0:
@@ -67,8 +76,9 @@ def vote(request):
     true_def = WordAndTrue.objects.get(word=sent_word)
 
     #if WordAndTrue.objects.filter(pk=uid).count() == 0:
-    if true_def.id != int(uid):
-        fake_def = FakeDefinitions.objects.get(pk=uid)
+    #if true_def.id != int(uid):
+    if choice_type == "FakeDefinitions":
+        fake_def = FakeDefinitions.objects.get(pk=choice_uid)
 
         # Disallows someone voting on their own definition
         if fake_def.author == lower_user:
@@ -84,7 +94,7 @@ def vote(request):
 
         return render(request, 'wordfibbd.html', {'author': fake_def, 'current_score': current_score, 'user': user, 'rand_word': rand_word })
     else:
-        real_def = WordAndTrue.objects.get(pk=uid)
+        real_def = WordAndTrue.objects.get(pk=choice_uid)
         user.score += 1
         user.save()
         current_score = user.score
@@ -163,7 +173,7 @@ def add_another(request, pop_again=False):
     # grab a random word for player to write a fake def.
     rand_word = choice(WordAndTrue.objects.all())
 
-    while rand_word.fakedefinitions_set.count() > 2:
+    while rand_word.fakedefinitions_set.count() >= 2:
         rand_word = choice(WordAndTrue.objects.all())
 
     thanks_list = ['Thank you very much!', 'Muchas Gracias!', 'Baie Dankie!', 'Merci Beaucoup!', 'Domo Arigato!']
